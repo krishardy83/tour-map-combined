@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Messiah University">
+    <meta name="description" content="Browse buildings, facilities, and points of interest across our campus.">
+
+    <title>Campus Map - Messiah University</title>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link rel="stylesheet" href="/assets/css/variables.css">
+    <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/fonts.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/accordion.css">
+    <link rel="stylesheet" href="/assets/css/search.css">
+    <link rel="stylesheet" href="/assets/css/map.css">
+    <link rel="stylesheet" href="/assets/css/drawer.css">
+    <link rel="stylesheet" href="/assets/css/skeletons.css">
+    <link rel="stylesheet" href="/assets/css/top-nav.css">
+    <link rel="stylesheet" href="/assets/css/error.css">
+    <link rel="stylesheet" href="/assets/css/vendor/fancybox.css">
+  </head>
+  <body>
+    <nav class="top-nav" aria-label="External links">
+      <a href="https://www.messiah.edu/request-info/" target="_blank" rel="noopener nofollow noreferrer" class="top-nav-link -primary">
+        Request Info
+      </a>
+      <a href="https://www.messiah.edu/visit" target="_blank" rel="noopener nofollow noreferrer" class="top-nav-link -accent">
+        Visit Campus
+      </a>
+    </nav>
+
+    <aside id="drawer" class="drawer open">
+      <header class="drawer-header">
+        <a href="/">
+          <img
+            src="/assets/images/logo.svg"
+            alt="Messiah University"
+            class="drawer-logo"
+            width="130"
+            height="32"
+          >
+        </a>
+
+        <button id="drawer-close" class="drawer-close md" aria-label="Close menu">
+          <svg width="24" height="24">
+            <use href="/assets/images/symbol-defs.svg#close"></use>
+          </svg>
+        </button>
+      </header>
+
+      <search>
+        <form class="search-form" role="search" data-search>
+          <svg class="search-icon" width="20" height="20" aria-hidden="true">
+            <use href="/assets/images/symbol-defs.svg#search"></use>
+          </svg>
+
+          <input
+            type="search"
+            class="search-input"
+            placeholder="Search locations..."
+            aria-label="Search campus locations"
+            aria-expanded="false"
+            aria-controls="search-results"
+            aria-autocomplete="list"
+            role="combobox"
+            autocomplete="off"
+          >
+  
+          <ul id="search-results" class="search-results" role="listbox" hidden></ul>
+        </form>
+      </search>
+
+      <div id="drawer-content" class="drawer-content">
+        <div aria-hidden="true" role="status" aria-label="Loading campus map">
+          <div class="skeleton-group">
+            <div class="skeleton-line" style="inline-size: 45%"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line" style="inline-size: 80%"></div>
+          </div>
+          <div class="skeleton-group">
+            <div class="skeleton-line" style="inline-size: 35%"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line" style="inline-size: 70%"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line" style="inline-size: 60%"></div>
+          </div>
+        </div>
+      </div>
+
+      <nav id="drawer-nav" class="drawer-nav hidden">
+        <button id="btn-prev" class="button -secondary" aria-label="Previous entry" disabled>
+          <svg width="20" height="20">
+            <use href="/assets/images/symbol-defs.svg#previous"></use>
+          </svg>
+          Previous
+        </button>
+        <button id="btn-menu" class="button -secondary" aria-label="Back to overview">
+          <svg width="20" height="20">
+            <use href="/assets/images/symbol-defs.svg#menu"></use>
+          </svg>
+          Overview
+        </button>
+        <button id="btn-next" class="button -secondary" aria-label="Next entry" disabled>
+          Next
+          <svg width="20" height="20">
+            <use href="/assets/images/symbol-defs.svg#next"></use>
+          </svg>
+        </button>
+      </nav>
+    </aside>
+
+    <button id="drawer-toggle" class="drawer-toggle drawer-open" aria-label="Toggle sidebar">
+      <svg width="20" height="20" aria-hidden="true">
+        <use href="/assets/images/symbol-defs.svg#next"></use>
+      </svg>
+      <span class="drawer-toggle-label">Menu</span>
+    </button>
+
+    <main id="main-content">
+      <div id="map" class="map-container"></div>
+    </main>
+
+    <script>
+      window.initMap = function () {
+        window._mapReady = true;
+        window.dispatchEvent(new Event("google-maps-ready"));
+      };
+    </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDuK03Xp4KZdkHVHnsuV0Q46uVR5W7ECcU&callback=initMap&loading=async&libraries=marker"></script>
+    <script src="/assets/js/vendor/fancybox.js"></script>
+    <script type="module" src="/assets/js/campus-map/app.js"></script>
+  </body>
+</html>

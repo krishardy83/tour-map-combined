@@ -1,0 +1,80 @@
+@layer components {
+  .accordion-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+
+    cursor: pointer;
+    appearance: none;
+    transition: background-color var(--transition-speed);
+
+    &:hover {
+      background-color: var(--color-neutral-100);
+    }
+
+    .accordion[open] & {
+      background-color: var(--color-neutral-50);
+    }
+  }
+
+  .accordion-icon {
+    flex-shrink: 0;
+
+    transition: rotate var(--transition-speed);
+
+    .accordion[open] & {
+      rotate: 180deg;
+    }
+  }
+
+  .accordion-body {
+    background-color: var(--color-neutral-50);
+  }
+
+  .accordion-toggle-all {
+    display: block;
+    inline-size: 100%;
+    padding: 0.5rem 1rem;
+
+    font: inherit;
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: start;
+
+    color: var(--color-primary);
+    background-color: transparent;
+
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    transition: background-color var(--transition-speed);
+
+    &:hover {
+      background-color: var(--color-neutral-100);
+    }
+  }
+
+  .accordion-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .accordion-link {
+    display: block;
+    padding: 0.5rem 1rem;
+
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    
+    color: var(--color-primary);
+
+    transition: background-color var(--transition-speed);
+
+    &:hover {
+      background-color: var(--color-neutral-100);
+    }
+  }
+}

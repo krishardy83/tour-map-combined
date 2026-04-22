@@ -1,0 +1,68 @@
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: unset;
+    min-block-size: 100dvh;
+    
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, h4,
+  button, input, label {
+    line-height: 1.1;
+  }
+
+  h1, h2, h3, h4 {
+    margin-block-start: unset;
+
+    text-wrap: balance;
+  }
+
+  a:not([class]) {
+    text-decoration-skip-ink: auto;
+    
+    color: currentColor;
+  }
+
+  figure {
+    margin: unset;
+  }
+
+  img, picture {
+    max-inline-size: 100%;
+    display: block;
+    block-size: auto;
+  }
+
+  input, button, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  ul {
+    padding-inline-start: 1.5rem;
+   }
+
+  :target {
+    scroll-margin-block: 5ex;
+  }
+
+  svg {
+    flex-shrink: 0;
+    
+    vertical-align: middle;
+  }
+}

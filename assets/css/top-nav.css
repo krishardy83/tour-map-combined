@@ -1,0 +1,40 @@
+@layer layout {
+  .top-nav {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline-end: 1rem;
+    display: flex;
+    gap: 0.5rem;
+
+    z-index: 2;
+  }
+
+  .top-nav-link {
+    padding: 0.25rem 0.75rem;
+
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+
+    color: var(--color-white);
+    background-color: var(--background-color);
+
+    transition: background-color var(--transition-speed);
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-white);
+      outline-offset: 2px;
+    }
+
+    &.-primary {
+      --background-color: var(--color-teal);
+    }
+
+    &.-accent {
+      --background-color: var(--color-purple);
+    }
+  }
+}

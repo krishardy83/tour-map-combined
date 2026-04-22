@@ -1,0 +1,129 @@
+@layer layout {
+  .video-bg-container {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 100%;
+
+    background-color: var(--color-primary);
+    
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .video-bg {
+    inline-size: 100vw;
+    block-size: 56.25vw;
+    min-block-size: 100vh;
+    min-inline-size: 177.77vh;
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+
+    translate: -50% -50%;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .panel {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+
+    text-decoration: none;
+    text-align: center;
+
+    color: var(--color-white);
+    background: var(--panel-gradient);
+
+    &.-teal {
+      --panel-gradient: linear-gradient(
+        135deg,
+        oklch(from var(--color-teal) l c h / 0.55),
+        oklch(from var(--color-primary) l c h / 0.7)
+      );
+    }
+  
+    &.-purple {
+      --panel-gradient: linear-gradient(
+        135deg,
+        oklch(from var(--color-purple) l c h / 0.55),
+        oklch(from var(--color-primary) l c h / 0.7)
+      );
+    }
+
+    .icon {
+      margin-block-end: 1rem;
+    }
+
+    h2 {
+      margin: unset;
+
+      font-size: var(--font-size-2xl);
+
+      color: inherit;
+    }
+
+    p {
+      max-inline-size: 40ch;
+  
+      font-size: var(--font-size-lg);
+  
+      color: oklch(from var(--color-white) calc(l - 0.1) c h);
+    }
+  }
+
+  .logo-bar {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    padding: 3rem 1.25rem;
+    
+    z-index: 1;
+
+    background: linear-gradient(to bottom, oklch(0% 0 0 / 0.4), transparent);
+    img {
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  .split-divider {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 50%;
+    z-index: 2;
+    inline-size: 1px;
+
+    background-color: oklch(100% 0 0 / 0.2);
+  }
+
+  @media (width <= 640px) {
+    .split {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    .split-divider {
+      inset-block-start: 50%;
+      inset-inline: 0;
+      inline-size: 100%;
+      block-size: 1px;
+    }
+
+    .logo-bar {
+      padding-block: 1rem;
+      justify-content: flex-start;
+
+      img {
+        inline-size: 150px;
+      }
+    }
+  }
+}

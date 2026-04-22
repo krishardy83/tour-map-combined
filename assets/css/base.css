@@ -1,0 +1,48 @@
+@layer reset, base, components, layout, utils;
+
+@layer base {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  body {
+    display: grid;
+
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    
+    color: var(--color-neutral);
+  }
+
+  h1, h2, h3, h4 {
+    color: oklch(from var(--color-neutral) calc(l - 0.15) c h);
+  }
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    
+    border: none;
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 50ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 50ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .md {
+    @media (width > 768px) {
+      display: none !important;
+    }
+  }
+}

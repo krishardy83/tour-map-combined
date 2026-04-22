@@ -1,0 +1,24 @@
+@layer layout {
+  .map-container {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .map-marker-glyph {
+    font-size: var(--font-size-base);
+    font-weight: bold;
+  }
+
+  .map-marker-text {
+    margin: unset;
+
+    color: var(--color-white);
+    
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+}

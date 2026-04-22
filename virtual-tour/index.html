@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Messiah University">
+    <meta name="description" content="Experience our campus through immersive 360-degree panoramic views.">
+    
+    <title>Virtual Tour - Messiah University</title>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link rel="stylesheet" href="/assets/css/variables.css">
+    <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/fonts.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/drawer.css">
+    <link rel="stylesheet" href="/assets/css/skeletons.css">
+    <link rel="stylesheet" href="/assets/css/top-nav.css">
+    <link rel="stylesheet" href="/assets/css/error.css">
+    <link rel="stylesheet" href="/assets/css/stop-list.css">
+    <link rel="stylesheet" href="/assets/css/map.css">
+  </head>
+  <body>
+    <nav class="top-nav" aria-label="External links">
+      <a href="https://www.messiah.edu/request-info/" target="_blank" rel="noopener nofollow noreferrer" class="top-nav-link -primary">
+        Request Info
+      </a>
+      <a href="https://www.messiah.edu/visit" target="_blank" rel="noopener nofollow noreferrer" class="top-nav-link -accent">
+        Visit Campus
+      </a>
+    </nav>
+
+    <aside id="drawer" class="drawer open">
+      <header class="drawer-header">
+        <a href="/">
+          <img
+            src="/assets/images/logo.svg"
+            alt="Messiah University"
+            class="drawer-logo"
+            width="130"
+            height="32"
+          >
+        </a>
+
+        <button id="drawer-close" class="drawer-close md" aria-label="Close menu">
+          <svg width="24" height="24">
+            <use href="/assets/images/symbol-defs.svg#close"></use>
+          </svg>
+        </button>
+      </header>
+    
+      <div id="drawer-content" class="drawer-content">
+        <div aria-hidden="true" role="status" aria-label="Loading virtual tour">
+          <div class="skeleton-stop">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-stop-text">
+              <div class="skeleton-line" style="inline-size: 70%"></div>
+              <div class="skeleton-line" style="inline-size: 45%"></div>
+            </div>
+          </div>
+          <div class="skeleton-stop">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-stop-text">
+              <div class="skeleton-line" style="inline-size: 60%"></div>
+              <div class="skeleton-line" style="inline-size: 40%"></div>
+            </div>
+          </div>
+          <div class="skeleton-stop">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-stop-text">
+              <div class="skeleton-line" style="inline-size: 80%"></div>
+              <div class="skeleton-line" style="inline-size: 50%"></div>
+            </div>
+          </div>
+          <div class="skeleton-stop">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-stop-text">
+              <div class="skeleton-line" style="inline-size: 55%"></div>
+              <div class="skeleton-line" style="inline-size: 35%"></div>
+            </div>
+          </div>
+          <div class="skeleton-stop">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-stop-text">
+              <div class="skeleton-line" style="inline-size: 65%"></div>
+              <div class="skeleton-line" style="inline-size: 45%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav id="drawer-nav" class="drawer-nav hidden">
+        <span id="drawer-progress" class="drawer-progress"></span>
+
+        <button id="btn-prev" class="button -secondary" aria-label="Previous stop" disabled>
+          <svg width="20" height="20">
+            <use href="/assets/images/symbol-defs.svg#previous"></use>
+          </svg>
+          Previous
+        </button>
+        <button id="btn-menu" class="button -secondary" aria-label="Back to map">
+          <svg width="20" height="20">
+            <use href="/assets/images/symbol-defs.svg#menu"></use>
+          </svg>
+          Overview
+        </button>
+        <button id="btn-next" class="button -secondary" aria-label="Next stop" disabled>
+          Next
+          <svg width="20" height="20">
+            <use href="/assets/images/symbol-defs.svg#next"></use>
+          </svg>
+        </button>
+      </nav>
+    </aside>
+
+    <button id="drawer-toggle" class="drawer-toggle drawer-open" aria-label="Toggle sidebar">
+      <svg width="20" height="20" aria-hidden="true">
+        <use href="/assets/images/symbol-defs.svg#next"></use>
+      </svg>
+      <span class="drawer-toggle-label">Menu</span>
+    </button>
+
+    <main id="main-content">
+      <div id="map" class="map-container"></div>
+
+      <div id="panorama-container" class="hidden">
+        <iframe id="pano-current" title="Virtual tour panorama" allow="accelerometer; gyroscope; fullscreen"></iframe>
+        <iframe id="pano-prev" class="hidden" title="Virtual tour panorama" allow="accelerometer; gyroscope; fullscreen"></iframe>
+        <iframe id="pano-next" class="hidden" title="Virtual tour panorama" allow="accelerometer; gyroscope; fullscreen"></iframe>
+      </div>
+    </main>
+
+    <script>
+      window.initMap = function () {
+        window._mapReady = true;
+        window.dispatchEvent(new Event("google-maps-ready"));
+      };
+    </script>
+    <script type="module" src="/assets/js/virtual-tour/app.js"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDuK03Xp4KZdkHVHnsuV0Q46uVR5W7ECcU&callback=initMap&loading=async&libraries=marker"></script>
+  </body>
+</html>

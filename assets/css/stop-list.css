@@ -1,0 +1,55 @@
+@layer components {
+  .stop-list {
+    margin: unset;
+    padding: unset;
+  
+    list-style: none;
+  }
+  
+  .stop-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  
+    text-decoration: none;
+    
+    transition: background-color var(--transition-speed);
+  
+    &:hover {
+      background-color: var(--color-neutral-100);
+    }
+  }
+  
+  .stop-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    inline-size: 36px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    
+    font-weight: 700;
+  }
+  
+  .stop-name {
+    margin: unset;
+  
+    font-size: var(--font-size-base);
+  
+    color: var(--color-primary);
+  }
+  
+  .stop-category {
+    display: block;
+    margin-block-start: 0.125rem;
+    
+    font-size: var(--font-size-sm);
+  
+    color: var(--color-neutral);
+  }
+}
