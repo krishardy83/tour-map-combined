@@ -34,7 +34,7 @@ export function ensureDrawerOpen() {
 function renderCategoryGroup(title, categories, route) {
   if (categories.length === 0) return "";
 
-  const sectionsHtml = categories
+  let sectionsHtml = categories
     .map((category) => renderAccordion(category, route))
     .join("");
 
@@ -45,11 +45,11 @@ function renderCategoryGroup(title, categories, route) {
 }
 
 function renderAccordion(category, route) {
-  const categoryEntries = getEntriesForCategory(category, entries);
-  const isExpanded = route.expanded.includes(category);
-  const hasActiveMarker = route.markers.includes(category);
+  let categoryEntries = getEntriesForCategory(category, entries);
+  let isExpanded = route.expanded.includes(category);
+  let hasActiveMarker = route.markers.includes(category);
 
-  const entriesHtml = categoryEntries
+  let entriesHtml = categoryEntries
     .map(
       (entry) =>
         `<li><a href="?entry=${encodeURIComponent(entry.shortcut)}" class="accordion-link" data-shortcut="${entry.shortcut}">${entry.entry_title}</a></li>`,
@@ -76,10 +76,10 @@ function renderAccordion(category, route) {
 
 export function showOverview() {
   navEl.classList.add("hidden");
-  const route = getRoute();
-  const categories = getCategories(entries);
-  const visitorLinks = getVisitorQuickLinks(categories);
-  const locationCats = getLocationCategories(categories);
+  let route = getRoute();
+  let categories = getCategories(entries);
+  let visitorLinks = getVisitorQuickLinks(categories);
+  let locationCats = getLocationCategories(categories);
 
   contentEl.innerHTML = `
     <h1 class="hidden">All locations and buildings</h1>
@@ -93,9 +93,9 @@ export function showOverview() {
 function bindAccordionEvents() {
   contentEl.querySelectorAll(".accordion").forEach((details) => {
     details.addEventListener("toggle", () => {
-      const category = details.dataset.category;
-      const route = getRoute();
-      const expanded = details.open
+      let category = details.dataset.category;
+      let route = getRoute();
+      let expanded = details.open
         ? [...route.expanded, category]
         : route.expanded.filter((c) => c !== category);
 
@@ -112,11 +112,11 @@ function bindAccordionEvents() {
 
   contentEl.querySelectorAll(".accordion-toggle-all").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const category = btn.dataset.category;
-      const route = getRoute();
+      let category = btn.dataset.category;
+      let route = getRoute();
 
-      const isActive = route.markers.includes(category);
-      const markers = isActive
+      let isActive = route.markers.includes(category);
+      let markers = isActive
         ? route.markers.filter((m) => m !== category)
         : [...route.markers, category];
 

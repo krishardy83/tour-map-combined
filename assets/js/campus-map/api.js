@@ -8,19 +8,19 @@ const VISITOR_QUICK_LINKS = [
 ];
 
 export async function fetchEntries() {
-  const response = await fetch(DATA_URL);
+  let response = await fetch(DATA_URL);
 
   if (!response.ok) {
     throw new Error(`Failed to fetch campus map data: ${response.status}`);
   }
 
-  const json = await response.json();
+  let json = await response.json();
 
   return json.items.filter((entry) => String(entry.live) === "1");
 }
 
 export function getCategories(entries) {
-  const seen = new Set();
+  let seen = new Set();
 
   return entries
     .filter((entry) => entry.category_name?.length > 0)
@@ -60,7 +60,7 @@ export function getEntriesInBuilding(entry, entries) {
 export function parseCoordinates(location) {
   if (!location || location.length === 0) return null;
 
-  const [lat, lng] = location.split(",").map(Number);
+  let [lat, lng] = location.split(",").map(Number);
 
   if (Number.isNaN(lat) || Number.isNaN(lng)) return null;
 
@@ -77,13 +77,13 @@ export function getGalleryImages(entry) {
 }
 
 export function getAdjacentEntries(shortcut, entries) {
-  const current = getEntryByShortcut(entries, shortcut);
+  let current = getEntryByShortcut(entries, shortcut);
   if (!current) return { prev: null, next: null };
 
-  const sameCategory = entries.filter(
+  let sameCategory = entries.filter(
     (e) => e.category_name === current.category_name,
   );
-  const idx = sameCategory.findIndex((e) => e.shortcut === shortcut);
+  let idx = sameCategory.findIndex((e) => e.shortcut === shortcut);
 
   return {
     prev: idx > 0 ? sameCategory[idx - 1] : null,
@@ -96,16 +96,16 @@ export function getGoogleMapsUrl(location) {
 }
 
 export function searchEntries(query, entries) {
-  const fields = ["category_name", "keywords", "entry_title", "description"];
-  const term = query.toLowerCase().trim();
+  let fields = ["category_name", "keywords", "entry_title", "description"];
+  let term = query.toLowerCase().trim();
 
   if (term.length === 0) return [];
 
-  const results = entries.filter((entry) =>
+  let results = entries.filter((entry) =>
     fields.some((field) => entry[field]?.toLowerCase().includes(term)),
   );
 
-  const seen = new Set();
+  let seen = new Set();
 
   return results.filter((entry) => {
     if (seen.has(entry.entry_title)) return false;

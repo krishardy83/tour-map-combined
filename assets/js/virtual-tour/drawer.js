@@ -19,21 +19,21 @@ export function initDrawer(stopsData) {
   });
 
   document.getElementById("btn-prev").addEventListener("click", () => {
-    const btn = document.getElementById("btn-prev");
-    const stop = btn.dataset.stop;
-    const highlight = btn.dataset.highlight;
+    let btn = document.getElementById("btn-prev");
+    let stop = btn.dataset.stop;
+    let highlight = btn.dataset.highlight;
     if (!stop) return;
     navigate({ stop, highlight: highlight !== "" ? Number(highlight) : null });
   });
 
   document.getElementById("btn-next").addEventListener("click", () => {
-    const btn = document.getElementById("btn-next");
+    let btn = document.getElementById("btn-next");
     if (btn.dataset.finish === "true") {
       showConclusion();
       return;
     }
-    const stop = btn.dataset.stop;
-    const highlight = btn.dataset.highlight;
+    let stop = btn.dataset.stop;
+    let highlight = btn.dataset.highlight;
     if (!stop) return;
     navigate({ stop, highlight: highlight !== "" ? Number(highlight) : null });
   });
@@ -80,11 +80,11 @@ export function showOverview() {
 }
 
 function getNavigationTargets(stopNumber, highlightIndex) {
-  const stopIdx = stops.findIndex((s) => s.stopNumber === stopNumber);
+  let stopIdx = stops.findIndex((s) => s.stopNumber === stopNumber);
   if (stopIdx === -1) return { prev: null, next: null };
 
-  const stop = stops[stopIdx];
-  const isHighlight = highlightIndex !== null;
+  let stop = stops[stopIdx];
+  let isHighlight = highlightIndex !== null;
 
   let prev = null;
   let next = null;
@@ -95,7 +95,7 @@ function getNavigationTargets(stopNumber, highlightIndex) {
   } else if (isHighlight && highlightIndex === 0) {
     prev = { stop: stopNumber, highlight: null };
   } else if (!isHighlight && stopIdx > 0) {
-    const prevStop = stops[stopIdx - 1];
+    let prevStop = stops[stopIdx - 1];
     if (prevStop.highlights.length > 0) {
       prev = {
         stop: prevStop.stopNumber,
@@ -112,7 +112,7 @@ function getNavigationTargets(stopNumber, highlightIndex) {
   } else if (isHighlight && highlightIndex < stop.highlights.length - 1) {
     next = { stop: stopNumber, highlight: highlightIndex + 1 };
   } else if (stopIdx < stops.length - 1) {
-    const isLastHighlight =
+    let isLastHighlight =
       !isHighlight || highlightIndex === stop.highlights.length - 1;
     if (isLastHighlight) {
       next = { stop: stops[stopIdx + 1].stopNumber, highlight: null };
@@ -123,24 +123,24 @@ function getNavigationTargets(stopNumber, highlightIndex) {
 }
 
 export function showStop(stopNumber, highlightIndex = null) {
-  const stopIdx = stops.findIndex((s) => s.stopNumber === stopNumber);
+  let stopIdx = stops.findIndex((s) => s.stopNumber === stopNumber);
   if (stopIdx === -1) return;
 
-  const stop = stops[stopIdx];
+  let stop = stops[stopIdx];
 
   navEl.classList.remove("hidden");
   drawerController.openDrawer();
 
   progressEl.textContent = `Stop ${stopIdx + 1} of ${stops.length}`;
 
-  const isHighlight = highlightIndex !== null;
-  const entry = isHighlight ? stop.highlights[highlightIndex] : stop;
+  let isHighlight = highlightIndex !== null;
+  let entry = isHighlight ? stop.highlights[highlightIndex] : stop;
   if (!entry) return;
 
-  const { prev, next } = getNavigationTargets(stopNumber, highlightIndex);
+  let { prev, next } = getNavigationTargets(stopNumber, highlightIndex);
 
-  const btnPrev = document.getElementById("btn-prev");
-  const btnNext = document.getElementById("btn-next");
+  let btnPrev = document.getElementById("btn-prev");
+  let btnNext = document.getElementById("btn-next");
 
   btnPrev.disabled = !prev;
   btnPrev.dataset.stop = prev?.stop ?? "";
@@ -165,15 +165,15 @@ export function showStop(stopNumber, highlightIndex = null) {
     btnNext.innerHTML = `Finish <svg width="20" height="20" aria-hidden="true"><use href="/assets/images/symbol-defs.svg#next"></use></svg>`;
   }
 
-  const bannerHtml = entry.banner
+  let bannerHtml = entry.banner
     ? `<figure class="drawer-banner"><img src="${entry.banner}" alt="${entry.title}" width="448" height="298"></figure>`
     : "";
 
-  const labelHtml = isHighlight
+  let labelHtml = isHighlight
     ? `<span class="label -teal">Stop ${stopNumber}</span><span class="label -purple">Stop highlight</span>`
     : `<span class="label -teal">Stop ${stopNumber}</span>`;
 
-  const highlightsHtml =
+  let highlightsHtml =
     !isHighlight && stop.highlights.length > 0
       ? `
       <h2 class="subtitle">Stop Highlights</h2>
@@ -193,7 +193,7 @@ export function showStop(stopNumber, highlightIndex = null) {
     `
       : "";
 
-  const backHtml = isHighlight
+  let backHtml = isHighlight
     ? `<button class="button -primary" data-stop="${stopNumber}">Return to Stop Home</button>`
     : "";
 
@@ -221,7 +221,7 @@ export function showStop(stopNumber, highlightIndex = null) {
     });
   });
 
-  const backBtn = contentEl.querySelector(".button");
+  let backBtn = contentEl.querySelector(".button");
   if (backBtn) {
     backBtn.addEventListener("click", () => {
       navigate({ stop: backBtn.dataset.stop });
@@ -234,15 +234,15 @@ export function showStop(stopNumber, highlightIndex = null) {
 function showConclusion() {
   progressEl.textContent = "Tour Complete";
 
-  const btnNext = document.getElementById("btn-next");
+  let btnNext = document.getElementById("btn-next");
   btnNext.disabled = true;
   btnNext.classList.remove("-primary");
   btnNext.classList.add("-secondary");
   btnNext.dataset.finish = "";
   btnNext.innerHTML = `Finish <svg width="20" height="20" aria-hidden="true"><use href="/assets/images/symbol-defs.svg#next"></use></svg>`;
 
-  const categories = [...new Set(stops.map((s) => s.categoryName))];
-  const categoryList = categories.slice(0, 4).join(", ");
+  let categories = [...new Set(stops.map((s) => s.categoryName))];
+  let categoryList = categories.slice(0, 4).join(", ");
 
   contentEl.innerHTML = `
     <div class="tour-conclusion">

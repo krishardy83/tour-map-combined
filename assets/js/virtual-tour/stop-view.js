@@ -9,7 +9,7 @@ export function initPanorama(stopsData) {
 }
 
 function findEntry(stopNumber, highlightIndex) {
-  const stop = stops.find((s) => s.stopNumber === stopNumber);
+  let stop = stops.find((s) => s.stopNumber === stopNumber);
   if (!stop) return null;
 
   if (highlightIndex !== null && stop.highlights[highlightIndex]) {
@@ -19,11 +19,11 @@ function findEntry(stopNumber, highlightIndex) {
 }
 
 function getAdjacentEntries(stopNumber, highlightIndex) {
-  const stopIdx = stops.findIndex((s) => s.stopNumber === stopNumber);
+  let stopIdx = stops.findIndex((s) => s.stopNumber === stopNumber);
   if (stopIdx === -1) return { prevEntry: null, nextEntry: null };
 
-  const stop = stops[stopIdx];
-  const isHighlight = highlightIndex !== null;
+  let stop = stops[stopIdx];
+  let isHighlight = highlightIndex !== null;
 
   let prevEntry = null;
   let nextEntry = null;
@@ -34,10 +34,11 @@ function getAdjacentEntries(stopNumber, highlightIndex) {
   } else if (isHighlight && highlightIndex === 0) {
     prevEntry = stop;
   } else if (!isHighlight && stopIdx > 0) {
-    const prevStop = stops[stopIdx - 1];
-    prevEntry = prevStop.highlights.length > 0
-      ? prevStop.highlights[prevStop.highlights.length - 1]
-      : prevStop;
+    let prevStop = stops[stopIdx - 1];
+    prevEntry =
+      prevStop.highlights.length > 0
+        ? prevStop.highlights[prevStop.highlights.length - 1]
+        : prevStop;
   }
 
   // Next
@@ -46,7 +47,7 @@ function getAdjacentEntries(stopNumber, highlightIndex) {
   } else if (isHighlight && highlightIndex < stop.highlights.length - 1) {
     nextEntry = stop.highlights[highlightIndex + 1];
   } else {
-    const isLast = !isHighlight || highlightIndex === stop.highlights.length - 1;
+    let isLast = !isHighlight || highlightIndex === stop.highlights.length - 1;
     if (isLast && stopIdx < stops.length - 1) {
       nextEntry = stops[stopIdx + 1];
     }
@@ -56,14 +57,14 @@ function getAdjacentEntries(stopNumber, highlightIndex) {
 }
 
 export function showPanorama(stopNumber, highlightIndex = null) {
-  const entry = findEntry(stopNumber, highlightIndex);
+  let entry = findEntry(stopNumber, highlightIndex);
   if (!entry) return;
 
-  const container = document.getElementById("panorama-container");
+  let container = document.getElementById("panorama-container");
   container.classList.remove("hidden");
   document.getElementById("map").classList.add("hidden");
 
-  const { prevEntry, nextEntry } = getAdjacentEntries(stopNumber, highlightIndex);
+  let { prevEntry, nextEntry } = getAdjacentEntries(stopNumber, highlightIndex);
 
   currentFrame.classList.remove("hidden");
   currentFrame.src = entry.panorama || "";
@@ -82,7 +83,7 @@ export function hidePanorama() {
 }
 
 export function swapToPrev() {
-  const temp = nextFrame;
+  let temp = nextFrame;
   nextFrame = currentFrame;
   currentFrame = prevFrame;
   prevFrame = temp;
@@ -93,7 +94,7 @@ export function swapToPrev() {
 }
 
 export function swapToNext() {
-  const temp = prevFrame;
+  let temp = prevFrame;
   prevFrame = currentFrame;
   currentFrame = nextFrame;
   nextFrame = temp;

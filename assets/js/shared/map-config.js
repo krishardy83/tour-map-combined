@@ -53,7 +53,8 @@ export function getMapOptions() {
 export function createTileOverlay(tilePathPrefix = "/assets/tiles") {
   return new google.maps.ImageMapType({
     getTileUrl(coord, zoom) {
-      const bounds = TILE_BOUNDS[zoom];
+      let bounds = TILE_BOUNDS[zoom];
+
       if (
         !bounds ||
         coord.x < bounds[0][0] ||

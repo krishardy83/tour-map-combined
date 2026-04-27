@@ -2,7 +2,7 @@ const JSON_URL =
   "https://cascade-prod.messiah.edu/campus-map/_data/virtual-tour.json";
 
 function normalizeEntry(raw) {
-  const [lat, lng] = (raw.stop_location || "0,0").split(",").map(Number);
+  let [lat, lng] = (raw.stop_location || "0,0").split(",").map(Number);
 
   return {
     stopNumber: raw.stop_number || "",
@@ -17,27 +17,27 @@ function normalizeEntry(raw) {
 }
 
 export async function fetchStops() {
-  const response = await fetch(JSON_URL);
+  let response = await fetch(JSON_URL);
 
   if (!response.ok) {
     throw new Error(`Server responded with ${response.status}`);
   }
 
-  const data = await response.json();
-  const stops = new Map();
+  let data = await response.json();
+  let stops = new Map();
 
-  for (const raw of data.directory_data) {
+  for (let raw of data.directory_data) {
     if (raw.live !== "1") continue;
 
-    const entry = normalizeEntry(raw);
-    const isHighlight = raw.building_highlight === "yes";
-    const key = entry.stopNumber;
+    let entry = normalizeEntry(raw);
+    let isHighlight = raw.building_highlight === "yes";
+    let key = entry.stopNumber;
 
     if (!stops.has(key)) {
       stops.set(key, { main: null, highlights: [] });
     }
 
-    const record = stops.get(key);
+    let record = stops.get(key);
 
     if (isHighlight) {
       record.highlights.push(entry);
@@ -47,7 +47,7 @@ export async function fetchStops() {
   }
 
   // Remove entries with no main stop and sort numerically
-  const sorted = [...stops.entries()]
+  let sorted = [...stops.entries()]
     .filter(([, value]) => value.main !== null)
     .sort(([a], [b]) => Number(a) - Number(b))
     .map(([, value]) => ({

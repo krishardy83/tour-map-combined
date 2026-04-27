@@ -9,7 +9,7 @@ import { showError } from "../shared/utils.js";
 let currentEntry = undefined;
 
 function handleRouteChange() {
-  const route = getRoute();
+  let route = getRoute();
 
   if (route.entry) {
     if (route.entry !== currentEntry) {

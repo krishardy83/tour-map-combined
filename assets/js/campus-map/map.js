@@ -9,7 +9,6 @@ import {
   createTileOverlay,
   DEFAULT_ZOOM,
   DETAIL_ZOOM,
-  DEFAULT_CENTER,
 } from "../shared/map-config.js";
 
 let map = null;

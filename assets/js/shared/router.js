@@ -2,8 +2,8 @@ const ROUTE_CHANGE_EVENT = "routechange";
 
 export function getRoute() {
   let params = new URLSearchParams(window.location.search);
-  const expandedParsed = params.getAll("expanded").filter(Boolean);
-  const markersParsed = params.getAll("markers").filter(Boolean);
+  let expandedParsed = params.getAll("expanded").filter(Boolean);
+  let markersParsed = params.getAll("markers").filter(Boolean);
 
   return {
     stop: params.get("stop") || null,
@@ -37,9 +37,7 @@ export function navigate(updates = {}) {
     params.set("entry", entry);
   }
 
-  expanded
-    .filter(Boolean)
-    .forEach((value) => params.append("expanded", value));
+  expanded.filter(Boolean).forEach((value) => params.append("expanded", value));
 
   markers.filter(Boolean).forEach((value) => params.append("markers", value));
 
