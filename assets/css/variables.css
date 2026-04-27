@@ -28,6 +28,7 @@
 
     --drawer-width: 450px;
     --drawer-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+    --drawer-border-width: 10px;
     --header-height: 64px;
     --transition-speed: 0.15s;
   }

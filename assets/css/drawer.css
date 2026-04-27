@@ -10,6 +10,8 @@
     
     background-color: var(--color-white);
 
+    border-block-start: 10px solid;
+    border-image: linear-gradient(to right, var(--color-primary-light), var(--color-purple)) 1;
     box-shadow: var(--drawer-shadow);
     
     z-index: 2;
@@ -83,15 +85,17 @@
   }
 
   .drawer-toggle {
+    --block-size: 2.75rem;
+  
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
     position: fixed;
-    inset-block-start: calc(var(--header-height) - 2.75rem);
+    inset-block-start: calc(var(--header-height) - var(--block-size) + var(--drawer-border-width));
     inset-inline-start: 0;
     padding-inline: 0.25rem 0.5rem;
-    block-size: 2.75rem;
+    block-size: var(--block-size);
   
     z-index: 1;
     background-color: var(--color-primary);
