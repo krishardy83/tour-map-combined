@@ -108,21 +108,22 @@ export function showEntry(shortcut) {
   contentEl.innerHTML = `
     ${coverHtml}
 
-    <div class="drawer-body">
+    <article class="drawer-body">
       ${locationsInside.length > 0 ? `<div class="drawer-labels"><span class="label -teal">Building</span></div>` : ""}
-      <div class="title-group">
+      <header class="title-group">
         <h1 class="title">${entry.entry_title}</h1>
         ${directionsHtml}
-      </div>
-      <div>${entry.description}</div>
-      ${galleryHtml}
-      ${buildingsHtml}
-
+      </header>
+      <p>${entry.description}</p>
+      
       <button type="button" class="button -primary md" id="view-on-map">
         <svg width="20" height="20"><use href="/assets/images/symbol-defs.svg#eye"></use></svg>
         View on the map
       </button>
-    </div>
+      
+      ${galleryHtml}
+      ${buildingsHtml}
+    </article>
   `;
 
   bindOverviewLinks();
