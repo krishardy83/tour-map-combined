@@ -1,4 +1,4 @@
-import { navigate } from "../shared/router.js";
+import { navigate, getCampusMapEntryUrl } from "../shared/router.js";
 import { toggleDrawer } from "./drawer.js";
 import {
   getEntryByShortcut,
@@ -99,7 +99,7 @@ export function showEntry(shortcut) {
         ${locationsInside
           .map(
             (loc) =>
-              `<li><a href="?entry=${encodeURIComponent(loc.shortcut)}" data-shortcut="${loc.shortcut}" class="link">${loc.entry_title}</a></li>`,
+              `<li><a href="${getCampusMapEntryUrl(loc.shortcut)}" data-shortcut="${loc.shortcut}" class="link">${loc.entry_title}</a></li>`,
           )
           .join("")}
       </ul>`

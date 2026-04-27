@@ -1,4 +1,4 @@
-import { getRoute, navigate } from "../shared/router.js";
+import { getRoute, navigate, getCampusMapEntryUrl } from "../shared/router.js";
 import { initPersistentDrawer } from "../shared/drawer-utils.js";
 import {
   getCategories,
@@ -52,7 +52,7 @@ function renderAccordion(category, route) {
   let entriesHtml = categoryEntries
     .map(
       (entry) =>
-        `<li><a href="?entry=${encodeURIComponent(entry.shortcut)}" class="accordion-link" data-shortcut="${entry.shortcut}">${entry.entry_title}</a></li>`,
+        `<li><a href="${getCampusMapEntryUrl(entry.shortcut)}" class="accordion-link" data-shortcut="${entry.shortcut}">${entry.entry_title}</a></li>`,
     )
     .join("");
 
