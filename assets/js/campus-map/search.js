@@ -1,5 +1,4 @@
 import { navigate } from "../shared/router.js";
-import { searchEntries } from "./api.js";
 
 let form = document.querySelector("[data-search]");
 let input = form.querySelector("input");
@@ -36,6 +35,24 @@ function handleInput() {
   }
 
   renderResults();
+}
+
+function searchEntries(query, entries) {
+  let term = query.toLowerCase().trim();
+
+  if (term.length === 0) return [];
+
+  let results = entries.filter((entry) => {
+    return entry.entry_title.toLowerCase().includes(term);
+  });
+
+  let seen = new Set();
+
+  return results.filter((entry) => {
+    if (seen.has(entry.entry_title)) return false;
+    seen.add(entry.entry_title);
+    return true;
+  });
 }
 
 function handleKeydown(event) {

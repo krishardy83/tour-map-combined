@@ -95,25 +95,6 @@ export function getGoogleMapsUrl(location) {
   return `https://maps.google.com?saddr=Current+Location&daddr=${location}`;
 }
 
-export function searchEntries(query, entries) {
-  let fields = ["category_name", "keywords", "entry_title", "description"];
-  let term = query.toLowerCase().trim();
-
-  if (term.length === 0) return [];
-
-  let results = entries.filter((entry) =>
-    fields.some((field) => entry[field]?.toLowerCase().includes(term)),
-  );
-
-  let seen = new Set();
-
-  return results.filter((entry) => {
-    if (seen.has(entry.entry_title)) return false;
-    seen.add(entry.entry_title);
-    return true;
-  });
-}
-
 export function getBuildingEntries(entries) {
   return entries.filter(
     (entry) => entry.building2 === "yes" && entry.location?.length > 0,
