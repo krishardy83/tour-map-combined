@@ -202,7 +202,7 @@ export function showStop(stopNumber, highlightIndex = null) {
     <div class="drawer-body">
       <div class="drawer-labels">${labelHtml}</div>
       <div class="title-group">
-        <h1 class="title">${entry.title}</h1>
+        <h2 class="title">${entry.title}</h2>
       </div>
       <p>${entry.description}</p>
       ${highlightsHtml}

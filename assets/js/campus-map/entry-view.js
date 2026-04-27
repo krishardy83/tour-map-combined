@@ -49,7 +49,7 @@ export function showEntry(shortcut) {
   if (!entry) {
     contentEl.innerHTML = `
       <div class="drawer-body">
-        <h1 class="title">Not Found</h1>
+        <h2 class="title">Not Found</h2>
         <p>The entry you are looking for doesn't exist.</p>
       </div>
     `;
@@ -111,7 +111,7 @@ export function showEntry(shortcut) {
     <article class="drawer-body">
       ${locationsInside.length > 0 ? `<div class="drawer-labels"><span class="label -teal">Building</span></div>` : ""}
       <header class="title-group">
-        <h1 class="title">${entry.entry_title}</h1>
+        <h2 class="title">${entry.entry_title}</h2>
         ${directionsHtml}
       </header>
       <p>${entry.description}</p>

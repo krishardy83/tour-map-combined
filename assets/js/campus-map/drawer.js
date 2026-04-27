@@ -82,7 +82,6 @@ export function showOverview() {
   let locationCats = getLocationCategories(categories);
 
   contentEl.innerHTML = `
-    <h1 class="hidden">All locations and buildings</h1>
     ${renderCategoryGroup("Visitor Quick Links", visitorLinks, route)}
     ${renderCategoryGroup("Locations", locationCats, route)}
   `;

@@ -35,11 +35,26 @@
   .drawer-header {
     display: flex;
     align-items: center;
+    gap: 1rem;
     justify-content: space-between;
     padding-inline: 1rem;
     block-size: var(--header-height);
     
     border-block-end: 1px solid var(--color-neutral-200);
+  }
+
+  .drawer-title {
+    margin-block: 0;
+    margin-inline-start: auto;
+    
+    color: var(--color-primary);
+    
+    font-weight: 400;
+    font-size: 18px;
+
+    @media (width < 360px) {
+      display: none;
+    }
   }
 
   .drawer-banner {

@@ -9,7 +9,7 @@ export function showError(title, message) {
       <svg class="error-icon" width="56" height="56">
         <use href="/assets/images/symbol-defs.svg#error"></use>
       </svg>
-      <h1 class="error-title">${title}</h1>
+      <h2 class="error-title">${title}</h2>
       <p class="error-message">
         ${message}
       </p>
