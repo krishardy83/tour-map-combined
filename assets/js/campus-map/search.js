@@ -38,13 +38,14 @@ function handleInput() {
 }
 
 function searchEntries(query, entries) {
+  let fields = ["keywords", "entry_title"];
   let term = query.toLowerCase().trim();
 
   if (term.length === 0) return [];
 
-  let results = entries.filter((entry) => {
-    return entry.entry_title.toLowerCase().includes(term);
-  });
+  let results = entries.filter((entry) =>
+    fields.some((field) => entry[field]?.toLowerCase().includes(term)),
+  );
 
   let seen = new Set();
 
