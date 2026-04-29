@@ -20,7 +20,7 @@
 
     --font-body: Aptifer Sans, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-    --font-size-sm: clamp(0.7292rem, 0.7206rem + 0.0382vw, 0.7502rem);
+    --font-size-sm: clamp(0.85rem, 0.7206rem + 0.0382vw, 0.9202rem);
     --font-size-base: clamp(0.875rem, 0.8239rem + 0.2273vw, 1rem);
     --font-size-lg: clamp(1.05rem, 0.9682rem + 0.3636vw, 1.25rem);
     --font-size-xl: clamp(1.26rem, 1.0485rem + 0.9398vw, 1.7769rem);

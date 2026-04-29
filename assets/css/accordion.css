@@ -35,7 +35,7 @@
   .accordion-toggle-all {
     display: block;
     inline-size: 100%;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem 0.5rem 2rem;
 
     font: inherit;
     font-size: var(--font-size-sm);
@@ -64,7 +64,7 @@
 
   .accordion-link {
     display: block;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem 0.5rem 2rem;
 
     font-size: var(--font-size-sm);
     text-decoration: none;
