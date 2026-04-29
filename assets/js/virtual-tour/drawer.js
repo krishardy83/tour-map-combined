@@ -1,4 +1,4 @@
-import { navigate } from "../shared/router.js";
+import { navigate, getVirtualTourStopUrl } from "../shared/router.js";
 import { initPersistentDrawer } from "../shared/drawer-utils.js";
 
 const SIDEBAR_KEY = "mvt-sidebar-expanded";
@@ -56,7 +56,7 @@ export function showOverview() {
         .map(
           (stop) => `
         <li>
-          <a href="${window.location.pathname}?stop=${stop.stopNumber}" class="stop-item" data-stop="${stop.stopNumber}">
+          <a href="${getVirtualTourStopUrl(stop.stopNumber)}" class="stop-item" data-stop="${stop.stopNumber}">
             <span class="stop-badge">${stop.stopNumber}</span>
             <div>
               <h2 class="stop-name">${stop.title}</h2>
@@ -182,7 +182,7 @@ export function showStop(stopNumber, highlightIndex = null) {
           .map(
             (h, i) => `
           <li>
-            <a href="${window.location.pathname}?stop=${stopNumber}&highlight=${i}" class="link" data-stop="${stopNumber}" data-highlight="${i}">
+            <a href="${getVirtualTourStopUrl(stopNumber, i)}" class="link" data-stop="${stopNumber}" data-highlight="${i}">
               ${h.title}
             </a>
           </li>
