@@ -30,10 +30,8 @@
     aspect-ratio: 1;
     border-radius: 50%;
     
-    background-color: var(--color-primary);
-    color: var(--color-white);
-    
-    font-weight: 700;
+    background-color: var(--color-neutral-200);
+    color: var(--color-primary);
   }
   
   .stop-name {
