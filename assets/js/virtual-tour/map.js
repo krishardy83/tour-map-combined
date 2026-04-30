@@ -4,28 +4,17 @@ import { getMapOptions, createTileOverlay } from "../shared/map-config.js";
 let map = null;
 let markers = [];
 
-function createGlyphElement(textContent) {
-  let element = document.createElement("span");
-
-  element.className = "map-marker-glyph";
-  element.textContent = textContent;
-
-  return element;
-}
-
 function createMarker(stop) {
-  let pin = new google.maps.marker.PinElement({
-    scale: 1.5,
-    background: "var(--color-primary)",
-    borderColor: "var(--color-white)",
-    glyphColor: "var(--color-white)",
-    glyph: createGlyphElement(stop.stopNumber),
-  });
-
   let marker = new google.maps.marker.AdvancedMarkerElement({
     position: stop.coordinates,
     map,
-    content: pin.element,
+    content: new google.maps.marker.PinElement({
+      scale: 1.5,
+      background: "var(--color-primary)",
+      borderColor: "var(--color-white)",
+      glyphColor: "var(--color-white)",
+      glyphText: stop.stopNumber,
+    }),
     title: `Stop ${stop.stopNumber}`,
     gmpClickable: true,
   });

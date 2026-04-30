@@ -4,11 +4,6 @@
     block-size: 100%;
   }
 
-  .map-marker-glyph {
-    font-size: var(--font-size-base);
-    font-weight: bold;
-  }
-
   .map-marker-text {
     margin: unset;
 

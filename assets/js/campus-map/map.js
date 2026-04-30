@@ -26,25 +26,15 @@ function createTextMarkerContent(textContent) {
 }
 
 function createPinMarker(position, title, shortcut) {
-  let star = document.createElement("div");
-
-  star.innerHTML = `
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-      <use href="/assets/images/symbol-defs.svg#star"></use>
-    </svg>`;
-
-  let pin = new google.maps.marker.PinElement({
-    scale: 1.5,
-    background: "var(--color-primary)",
-    borderColor: "var(--color-white)",
-    glyphColor: "var(--color-white)",
-    glyph: star.firstElementChild,
-  });
-
   let marker = new google.maps.marker.AdvancedMarkerElement({
     position,
     map,
-    content: pin.element,
+    content: new google.maps.marker.PinElement({
+      scale: 1.5,
+      background: "var(--color-primary)",
+      borderColor: "var(--color-white)",
+      glyphSrc: "/assets/images/star.svg",
+    }),
     title,
     gmpClickable: true,
   });
