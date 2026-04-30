@@ -3,6 +3,17 @@ import { getMapOptions, createTileOverlay } from "../shared/map-config.js";
 
 let map = null;
 let markers = [];
+let resizeTimer = null;
+
+function queueMapResize() {
+  if (!map) return;
+  if (document.getElementById("map").classList.contains("hidden")) return;
+
+  window.clearTimeout(resizeTimer);
+  resizeTimer = window.setTimeout(() => {
+    google.maps.event.trigger(map, "resize");
+  }, 180);
+}
 
 function createMarker(stop) {
   let marker = new google.maps.marker.AdvancedMarkerElement({
@@ -33,6 +44,7 @@ export function initMap(stops) {
   map.overlayMapTypes.push(createTileOverlay());
 
   markers = stops.map((stop) => createMarker(stop));
+  window.addEventListener("drawer:toggle", queueMapResize);
 }
 
 export function showMap() {

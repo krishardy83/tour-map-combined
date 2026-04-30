@@ -15,6 +15,16 @@ let map = null;
 let entries = [];
 let pinMarkers = [];
 let textMarkers = [];
+let resizeTimer = null;
+
+function queueMapResize() {
+  if (!map) return;
+
+  window.clearTimeout(resizeTimer);
+  resizeTimer = window.setTimeout(() => {
+    google.maps.event.trigger(map, "resize");
+  }, 180);
+}
 
 function createTextMarkerContent(textContent) {
   let element = document.createElement("p");
@@ -63,6 +73,7 @@ export function initMap(entriesData) {
   map.overlayMapTypes.push(createTileOverlay());
 
   createBuildingTextMarkers();
+  window.addEventListener("drawer:toggle", queueMapResize);
 }
 
 function createBuildingTextMarkers() {

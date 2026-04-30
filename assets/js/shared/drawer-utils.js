@@ -9,12 +9,14 @@ export function initPersistentDrawer({ storageKey }) {
     drawerEl.classList.add("open");
     toggleEl.classList.add("drawer-open");
     localStorage.setItem(storageKey, "true");
+    window.dispatchEvent(new CustomEvent("drawer:toggle", { detail: { open: true } }));
   }
 
   function closeDrawer() {
     drawerEl.classList.remove("open");
     toggleEl.classList.remove("drawer-open");
     localStorage.setItem(storageKey, "false");
+    window.dispatchEvent(new CustomEvent("drawer:toggle", { detail: { open: false } }));
   }
 
   function toggleDrawer() {
