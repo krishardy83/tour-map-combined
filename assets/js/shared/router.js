@@ -1,8 +1,42 @@
 const ROUTE_CHANGE_EVENT = "routechange";
 const CAMPUS_MAP_BASE_PATH = "/campus-map";
 const VIRTUAL_TOUR_BASE_PATH = "/virtual-tour";
-const STOP_PREFIX = "stop-";
-const HIGHLIGHT_PREFIX = "highlight-";
+
+let virtualTourStopSlugByStop = new Map();
+let virtualTourStopBySlug = new Map();
+let virtualTourHighlightSlugByKey = new Map();
+let virtualTourHighlightBySlugKey = new Map();
+
+function slugify(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function createUniqueSlug(value, used) {
+  let base = slugify(value) || "item";
+  let slug = base;
+  let index = 2;
+
+  while (used.has(slug)) {
+    slug = `${base}-${index}`;
+    index += 1;
+  }
+
+  used.add(slug);
+  return slug;
+}
+
+function getHighlightKey(stop, highlight) {
+  return `${String(stop)}::${String(highlight)}`;
+}
+
+function getHighlightSlugKey(stopSlug, highlightSlug) {
+  return `${stopSlug}::${highlightSlug}`;
+}
 
 function getCampusMapEntryFromPath(pathname) {
   if (!pathname.startsWith(CAMPUS_MAP_BASE_PATH)) return null;
@@ -28,15 +62,21 @@ function getVirtualTourRouteFromPath(pathname) {
   }
 
   let [stopSegment, highlightSegment] = trimmed.split("/");
-  let stopToken = stopSegment ? decodeURIComponent(stopSegment) : "";
-  let highlightToken = highlightSegment ? decodeURIComponent(highlightSegment) : "";
-  let stop = stopToken.startsWith(STOP_PREFIX)
-    ? stopToken.slice(STOP_PREFIX.length)
-    : stopToken;
-  let highlightRaw = highlightToken.startsWith(HIGHLIGHT_PREFIX)
-    ? highlightToken.slice(HIGHLIGHT_PREFIX.length)
-    : highlightToken;
-  let highlight = highlightRaw !== "" ? Number(highlightRaw) : null;
+  let stopSlug = stopSegment ? decodeURIComponent(stopSegment) : "";
+  let stop = virtualTourStopBySlug.get(stopSlug) || null;
+
+  if (!stop) {
+    return { stop: null, highlight: null };
+  }
+
+  if (!highlightSegment) {
+    return { stop, highlight: null };
+  }
+
+  let highlightSlug = decodeURIComponent(highlightSegment);
+  let highlight = virtualTourHighlightBySlugKey.get(
+    getHighlightSlugKey(stopSlug, highlightSlug),
+  );
 
   return {
     stop,
@@ -54,22 +94,47 @@ export function getVirtualTourStopUrl(stop = null, highlight = null) {
   if (!stop) return `${VIRTUAL_TOUR_BASE_PATH}/`;
 
   let stopValue = String(stop);
-  if (stopValue.startsWith(STOP_PREFIX)) {
-    stopValue = stopValue.slice(STOP_PREFIX.length);
-  }
-
-  let stopUrl = `${VIRTUAL_TOUR_BASE_PATH}/${encodeURIComponent(`${STOP_PREFIX}${stopValue}`)}`;
+  let stopSlug = virtualTourStopSlugByStop.get(stopValue) || slugify(stopValue);
+  let stopUrl = `${VIRTUAL_TOUR_BASE_PATH}/${encodeURIComponent(stopSlug)}`;
 
   if (highlight !== null && highlight !== undefined && highlight !== "") {
     let highlightValue = String(highlight);
-    if (highlightValue.startsWith(HIGHLIGHT_PREFIX)) {
-      highlightValue = highlightValue.slice(HIGHLIGHT_PREFIX.length);
-    }
+    let highlightSlug =
+      virtualTourHighlightSlugByKey.get(getHighlightKey(stopValue, highlightValue)) ||
+      slugify(highlightValue);
 
-    return `${stopUrl}/${encodeURIComponent(`${HIGHLIGHT_PREFIX}${highlightValue}`)}`;
+    return `${stopUrl}/${encodeURIComponent(highlightSlug)}`;
   }
 
   return stopUrl;
+}
+
+export function setVirtualTourRouteData(stops = []) {
+  let usedStopSlugs = new Set();
+
+  virtualTourStopSlugByStop = new Map();
+  virtualTourStopBySlug = new Map();
+  virtualTourHighlightSlugByKey = new Map();
+  virtualTourHighlightBySlugKey = new Map();
+
+  for (let stop of stops) {
+    let stopId = String(stop.stopNumber);
+    let stopSlug = createUniqueSlug(stop.title, usedStopSlugs);
+
+    virtualTourStopSlugByStop.set(stopId, stopSlug);
+    virtualTourStopBySlug.set(stopSlug, stopId);
+
+    let usedHighlightSlugs = new Set();
+
+    stop.highlights.forEach((highlight, index) => {
+      let highlightSlug = createUniqueSlug(highlight.title, usedHighlightSlugs);
+      let highlightKey = getHighlightKey(stopId, index);
+      let highlightSlugKey = getHighlightSlugKey(stopSlug, highlightSlug);
+
+      virtualTourHighlightSlugByKey.set(highlightKey, highlightSlug);
+      virtualTourHighlightBySlugKey.set(highlightSlugKey, index);
+    });
+  }
 }
 
 export function getRoute() {

@@ -1,5 +1,9 @@
 import { fetchStops } from "./api.js";
-import { getRoute, onRouteChange } from "../shared/router.js";
+import {
+  getRoute,
+  onRouteChange,
+  setVirtualTourRouteData,
+} from "../shared/router.js";
 import { initMap as initGoogleMap, showMap } from "./map.js";
 import { initDrawer, showOverview, showStop } from "./drawer.js";
 import { initPanorama, showPanorama, hidePanorama } from "./stop-view.js";
@@ -30,6 +34,7 @@ async function loadData() {
 }
 
 function tryInit(stops) {
+  setVirtualTourRouteData(stops);
   initGoogleMap(stops);
   initDrawer(stops);
   initPanorama(stops);
