@@ -2,6 +2,9 @@ const ROUTE_CHANGE_EVENT = "routechange";
 const CAMPUS_MAP_BASE_PATH = "/campus-map";
 const VIRTUAL_TOUR_BASE_PATH = "/virtual-tour";
 
+let campusMapSlugByEntry = new Map();
+let campusMapEntryBySlug = new Map();
+
 let virtualTourStopSlugByStop = new Map();
 let virtualTourStopBySlug = new Map();
 let virtualTourHighlightSlugByKey = new Map();
@@ -45,7 +48,10 @@ function getCampusMapEntryFromPath(pathname) {
   if (!trimmed) return null;
 
   let [entry] = trimmed.split("/");
-  return entry ? decodeURIComponent(entry) : null;
+  if (!entry) return null;
+
+  let token = decodeURIComponent(entry);
+  return campusMapEntryBySlug.get(token) || token;
 }
 
 function getVirtualTourRouteFromPath(pathname) {
@@ -85,8 +91,11 @@ function getVirtualTourRouteFromPath(pathname) {
 }
 
 export function getCampusMapEntryUrl(entry = null) {
+  let entryToken = String(entry || "");
+  let slug = campusMapSlugByEntry.get(entryToken) || entryToken;
+
   return entry
-    ? `${CAMPUS_MAP_BASE_PATH}/${encodeURIComponent(entry)}`
+    ? `${CAMPUS_MAP_BASE_PATH}/${encodeURIComponent(slug)}`
     : `${CAMPUS_MAP_BASE_PATH}/`;
 }
 
@@ -119,7 +128,7 @@ export function setVirtualTourRouteData(stops = []) {
 
   for (let stop of stops) {
     let stopId = String(stop.stopNumber);
-    let stopSlug = createUniqueSlug(stop.title, usedStopSlugs);
+    let stopSlug = createUniqueSlug(stop.slug || stopId, usedStopSlugs);
 
     virtualTourStopSlugByStop.set(stopId, stopSlug);
     virtualTourStopBySlug.set(stopSlug, stopId);
@@ -127,13 +136,32 @@ export function setVirtualTourRouteData(stops = []) {
     let usedHighlightSlugs = new Set();
 
     stop.highlights.forEach((highlight, index) => {
-      let highlightSlug = createUniqueSlug(highlight.title, usedHighlightSlugs);
+      let highlightSlug = createUniqueSlug(
+        highlight.slug || `${stopId}-${index}`,
+        usedHighlightSlugs,
+      );
       let highlightKey = getHighlightKey(stopId, index);
       let highlightSlugKey = getHighlightSlugKey(stopSlug, highlightSlug);
 
       virtualTourHighlightSlugByKey.set(highlightKey, highlightSlug);
       virtualTourHighlightBySlugKey.set(highlightSlugKey, index);
     });
+  }
+}
+
+export function setCampusMapRouteData(entries = []) {
+  let usedSlugs = new Set();
+
+  campusMapSlugByEntry = new Map();
+  campusMapEntryBySlug = new Map();
+
+  for (let entry of entries) {
+    let entryId = String(entry.shortcut || "");
+    if (!entryId) continue;
+
+    let entrySlug = createUniqueSlug(entry.slug || entryId, usedSlugs);
+    campusMapSlugByEntry.set(entryId, entrySlug);
+    campusMapEntryBySlug.set(entrySlug, entryId);
   }
 }
 

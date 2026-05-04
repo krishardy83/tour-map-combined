@@ -1,5 +1,9 @@
 import { fetchEntries } from "./api.js";
-import { getRoute, onRouteChange } from "../shared/router.js";
+import {
+  getRoute,
+  onRouteChange,
+  setCampusMapRouteData,
+} from "../shared/router.js";
 import { initMap, updateMarkers } from "./map.js";
 import { initDrawer, showOverview, ensureDrawerOpen } from "./drawer.js";
 import { initEntryView, showEntry } from "./entry-view.js";
@@ -39,6 +43,7 @@ async function loadData() {
 }
 
 function tryInit(entries) {
+  setCampusMapRouteData(entries);
   initMap(entries);
   initDrawer(entries);
   initEntryView(entries);

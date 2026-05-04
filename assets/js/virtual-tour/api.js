@@ -6,6 +6,7 @@ function normalizeEntry(raw) {
 
   return {
     stopNumber: raw.stop_number || "",
+    slug: raw.slug || "",
     title: raw.entry_title || "",
     description: raw.stop_description || "",
     banner: raw.banner_image || "",
