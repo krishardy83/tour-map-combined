@@ -19,6 +19,15 @@ function slugify(value) {
     .replace(/^-+|-+$/g, "");
 }
 
+function firstNonEmptyString(...values) {
+  for (let value of values) {
+    let text = String(value || "").trim();
+    if (text) return text;
+  }
+
+  return "";
+}
+
 function createUniqueSlug(value, used) {
   let base = slugify(value) || "item";
   let slug = base;
@@ -128,7 +137,8 @@ export function setVirtualTourRouteData(stops = []) {
 
   for (let stop of stops) {
     let stopId = String(stop.stopNumber);
-    let stopSlug = createUniqueSlug(stop.slug || stopId, usedStopSlugs);
+    let stopSlugSource = firstNonEmptyString(stop.slug, stop.title, stopId);
+    let stopSlug = createUniqueSlug(stopSlugSource, usedStopSlugs);
 
     virtualTourStopSlugByStop.set(stopId, stopSlug);
     virtualTourStopBySlug.set(stopSlug, stopId);
@@ -136,8 +146,13 @@ export function setVirtualTourRouteData(stops = []) {
     let usedHighlightSlugs = new Set();
 
     stop.highlights.forEach((highlight, index) => {
+      let highlightSlugSource = firstNonEmptyString(
+        highlight.slug,
+        highlight.title,
+        `${stopId}-${index}`,
+      );
       let highlightSlug = createUniqueSlug(
-        highlight.slug || `${stopId}-${index}`,
+        highlightSlugSource,
         usedHighlightSlugs,
       );
       let highlightKey = getHighlightKey(stopId, index);
@@ -159,7 +174,12 @@ export function setCampusMapRouteData(entries = []) {
     let entryId = String(entry.shortcut || "");
     if (!entryId) continue;
 
-    let entrySlug = createUniqueSlug(entry.slug || entryId, usedSlugs);
+    let entrySlugSource = firstNonEmptyString(
+      entry.slug,
+      entry.entry_title,
+      entryId,
+    );
+    let entrySlug = createUniqueSlug(entrySlugSource, usedSlugs);
     campusMapSlugByEntry.set(entryId, entrySlug);
     campusMapEntryBySlug.set(entrySlug, entryId);
   }
