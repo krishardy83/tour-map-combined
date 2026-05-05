@@ -35,16 +35,33 @@ function createTextMarkerContent(textContent) {
   return element;
 }
 
-function createPinMarker(position, title, shortcut) {
+function createSelectedPinMarkerContent(title) {
+  let pin = new google.maps.marker.PinElement({
+    scale: 1.5,
+    background: "var(--color-primary)",
+    borderColor: "var(--color-white)",
+    glyphSrc: "/assets/images/star.svg",
+  });
+  let wrapper = document.createElement("div");
+
+  wrapper.className = "map-selected-marker";
+  wrapper.append(pin.element, createTextMarkerContent(title));
+
+  return wrapper;
+}
+
+function createPinMarker(position, title, shortcut, showLabel = false) {
   let marker = new google.maps.marker.AdvancedMarkerElement({
     position,
     map,
-    content: new google.maps.marker.PinElement({
-      scale: 1.5,
-      background: "var(--color-primary)",
-      borderColor: "var(--color-white)",
-      glyphSrc: "/assets/images/star.svg",
-    }),
+    content: showLabel
+      ? createSelectedPinMarkerContent(title)
+      : new google.maps.marker.PinElement({
+          scale: 1.5,
+          background: "var(--color-primary)",
+          borderColor: "var(--color-white)",
+          glyphSrc: "/assets/images/star.svg",
+        }),
     title,
     gmpClickable: true,
   });
@@ -130,7 +147,7 @@ export function updateMarkers(route) {
       if (position) {
         coords.push(position);
         pinMarkers.push(
-          createPinMarker(position, entry.entry_title, entry.shortcut),
+          createPinMarker(position, entry.entry_title, entry.shortcut, true),
         );
       }
     }

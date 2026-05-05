@@ -16,4 +16,11 @@
     white-space: nowrap;
     cursor: pointer;
   }
+
+  .map-selected-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
 }
