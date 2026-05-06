@@ -77,17 +77,30 @@ export function getGalleryImages(entry) {
 }
 
 export function getAdjacentEntries(shortcut, entries) {
-  let current = getEntryByShortcut(entries, shortcut);
-  if (!current) return { prev: null, next: null };
-
-  let sameCategory = entries.filter(
-    (e) => e.category_name === current.category_name,
+  let categories = getCategories(entries);
+  let drawerCategoryOrder = [
+    ...getVisitorQuickLinks(categories),
+    ...getLocationCategories(categories),
+  ];
+  let drawerOrderedEntries = drawerCategoryOrder.flatMap((category) =>
+    getEntriesForCategory(category, entries),
   );
-  let idx = sameCategory.findIndex((e) => e.shortcut === shortcut);
+  let idx = drawerOrderedEntries.findIndex((entry) => entry.shortcut === shortcut);
+
+  if (idx === -1) {
+    // Fallback for entries that do not appear in the drawer list.
+    let fallbackIdx = entries.findIndex((entry) => entry.shortcut === shortcut);
+    if (fallbackIdx === -1) return { prev: null, next: null };
+
+    return {
+      prev: fallbackIdx > 0 ? entries[fallbackIdx - 1] : null,
+      next: fallbackIdx < entries.length - 1 ? entries[fallbackIdx + 1] : null,
+    };
+  }
 
   return {
-    prev: idx > 0 ? sameCategory[idx - 1] : null,
-    next: idx < sameCategory.length - 1 ? sameCategory[idx + 1] : null,
+    prev: idx > 0 ? drawerOrderedEntries[idx - 1] : null,
+    next: idx < drawerOrderedEntries.length - 1 ? drawerOrderedEntries[idx + 1] : null,
   };
 }
 
