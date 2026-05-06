@@ -10,7 +10,7 @@ let virtualTourStopBySlug = new Map();
 let virtualTourHighlightSlugByKey = new Map();
 let virtualTourHighlightBySlugKey = new Map();
 
-function slugify(value) {
+export function slugify(value) {
   return String(value || "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -118,8 +118,9 @@ export function getVirtualTourStopUrl(stop = null, highlight = null) {
   if (highlight !== null && highlight !== undefined && highlight !== "") {
     let highlightValue = String(highlight);
     let highlightSlug =
-      virtualTourHighlightSlugByKey.get(getHighlightKey(stopValue, highlightValue)) ||
-      slugify(highlightValue);
+      virtualTourHighlightSlugByKey.get(
+        getHighlightKey(stopValue, highlightValue),
+      ) || slugify(highlightValue);
 
     return `${stopUrl}/${encodeURIComponent(highlightSlug)}`;
   }
@@ -211,8 +212,11 @@ export function navigate(updates = {}) {
   } = updates;
 
   let params = new URLSearchParams();
-  let isCampusMapPath = window.location.pathname.startsWith(CAMPUS_MAP_BASE_PATH);
-  let isVirtualTourPath = window.location.pathname.startsWith(VIRTUAL_TOUR_BASE_PATH);
+  let isCampusMapPath =
+    window.location.pathname.startsWith(CAMPUS_MAP_BASE_PATH);
+  let isVirtualTourPath = window.location.pathname.startsWith(
+    VIRTUAL_TOUR_BASE_PATH,
+  );
 
   expanded.filter(Boolean).forEach((value) => params.append("expanded", value));
 
