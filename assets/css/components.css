@@ -66,6 +66,13 @@
     }
   }
 
+  .button-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
   .category-group-title {
     padding: 1rem;
     margin: unset;

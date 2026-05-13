@@ -117,7 +117,7 @@ export function showEntry(shortcut) {
       <p>${entry.description}</p>
       
       <button type="button" class="button -primary md" id="view-on-map">
-        <svg width="20" height="20"><use href="/assets/images/symbol-defs.svg#eye"></use></svg>
+        <svg width="14" height="14"><use href="/assets/images/symbol-defs.svg#eye"></use></svg>
         View on the map
       </button>
       

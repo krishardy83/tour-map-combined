@@ -194,8 +194,21 @@ export function showStop(stopNumber, highlightIndex = null) {
       : "";
 
   let backHtml = isHighlight
-    ? `<button class="button -primary" data-stop="${stopNumber}">Return to Stop Home</button>`
-    : "";
+    ? `
+      <div class="button-group">
+        <button class="button -primary" data-stop="${stopNumber}">Return to Stop Home</button>
+        <button type="button" class="button -primary md" id="view-on-map">
+          <svg width="14" height="14"><use href="/assets/images/symbol-defs.svg#eye"></use></svg>
+          View on the map
+        </button>
+      </div>
+    `
+    : `
+      <button type="button" class="button -primary md" id="view-on-map">
+        <svg width="14" height="14"><use href="/assets/images/symbol-defs.svg#eye"></use></svg>
+        View on the map
+      </button>
+    `;
 
   contentEl.innerHTML = `
     ${bannerHtml}
@@ -220,6 +233,14 @@ export function showStop(stopNumber, highlightIndex = null) {
       });
     });
   });
+
+  let viewMapBtn = document.getElementById("view-on-map");
+
+  if (viewMapBtn) {
+    viewMapBtn.addEventListener("click", () => {
+      drawerController.closeDrawer();
+    });
+  }
 
   let backBtn = contentEl.querySelector(".button");
   if (backBtn) {
