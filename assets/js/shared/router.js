@@ -65,7 +65,7 @@ function getCampusMapEntryFromPath(pathname) {
 
 function getVirtualTourRouteFromPath(pathname) {
   if (!pathname.startsWith(VIRTUAL_TOUR_BASE_PATH)) {
-    return { stop: null, highlight: null };
+    return { stop: null, highlight: null, mediaAsset: null };
   }
 
   let trimmed = pathname
@@ -73,7 +73,7 @@ function getVirtualTourRouteFromPath(pathname) {
     .replace(/^\/+|\/+$/g, "");
 
   if (!trimmed) {
-    return { stop: null, highlight: null };
+    return { stop: null, highlight: null, mediaAsset: null };
   }
 
   let [stopSegment, highlightSegment] = trimmed.split("/");
@@ -81,11 +81,13 @@ function getVirtualTourRouteFromPath(pathname) {
   let stop = virtualTourStopBySlug.get(stopSlug) || null;
 
   if (!stop) {
-    return { stop: null, highlight: null };
+    return { stop: null, highlight: null, mediaAsset: null };
   }
 
+  let mediaAsset = normalizeMediaAsset(window.location.hash);
+
   if (!highlightSegment) {
-    return { stop, highlight: null };
+    return { stop, highlight: null, mediaAsset };
   }
 
   let highlightSlug = decodeURIComponent(highlightSegment);
@@ -96,7 +98,14 @@ function getVirtualTourRouteFromPath(pathname) {
   return {
     stop,
     highlight: Number.isInteger(highlight) ? highlight : null,
+    mediaAsset,
   };
+}
+
+function normalizeMediaAsset(value) {
+  let text = String(value || "").trim();
+  if (!text) return null;
+  return text.startsWith("#") ? text : `#${text}`;
 }
 
 export function getCampusMapEntryUrl(entry = null) {
@@ -196,6 +205,7 @@ export function getRoute() {
   return {
     stop: virtualTourRoute.stop,
     highlight: virtualTourRoute.highlight,
+    mediaAsset: virtualTourRoute.mediaAsset,
     entry: entryFromPath,
     expanded: expandedParsed,
     markers: markersParsed,
@@ -206,6 +216,7 @@ export function navigate(updates = {}) {
   let {
     stop = null,
     highlight = null,
+    mediaAsset = null,
     entry = null,
     expanded = [],
     markers = [],
@@ -223,15 +234,18 @@ export function navigate(updates = {}) {
   markers.filter(Boolean).forEach((value) => params.append("markers", value));
 
   let search = params.toString();
+  let hash = "";
   let pathname = window.location.pathname;
 
   if (isCampusMapPath) {
     pathname = getCampusMapEntryUrl(entry);
   } else if (isVirtualTourPath) {
     pathname = getVirtualTourStopUrl(stop, highlight);
+    hash = normalizeMediaAsset(mediaAsset) || "";
   }
 
   let url = search ? `${pathname}?${search}` : pathname;
+  url = `${url}${hash}`;
 
   window.history.pushState(null, "", url);
   window.dispatchEvent(new CustomEvent(ROUTE_CHANGE_EVENT));

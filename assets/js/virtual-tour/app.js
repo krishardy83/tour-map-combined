@@ -56,7 +56,7 @@ function findHighlight(stop, highlight) {
   return null;
 }
 
-function openStop(location, highlight = null) {
+function openStop(location, highlight = null, mediaAsset = null) {
   if (stops.length === 0) return false;
 
   let stop = findStopByLocation(location);
@@ -66,6 +66,7 @@ function openStop(location, highlight = null) {
   navigate({
     stop: stop.stopNumber,
     highlight: findHighlight(stop, highlight),
+    mediaAsset,
   });
 
   return true;
@@ -74,11 +75,11 @@ function openStop(location, highlight = null) {
 window.openStop = openStop;
 
 function handleRouteChange() {
-  let { stop, highlight } = getRoute();
+  let { stop, highlight, mediaAsset } = getRoute();
 
   if (stop) {
     showStop(stop, highlight);
-    showPanorama(stop, highlight);
+    showPanorama(stop, highlight, mediaAsset);
   } else {
     showOverview();
     hidePanorama();

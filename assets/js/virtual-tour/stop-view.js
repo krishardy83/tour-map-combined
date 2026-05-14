@@ -56,7 +56,7 @@ function getAdjacentEntries(stopNumber, highlightIndex) {
   return { prevEntry, nextEntry };
 }
 
-export function showPanorama(stopNumber, highlightIndex = null) {
+export function showPanorama(stopNumber, highlightIndex = null, mediaAsset = null) {
   let entry = findEntry(stopNumber, highlightIndex);
   if (!entry) return;
 
@@ -67,10 +67,19 @@ export function showPanorama(stopNumber, highlightIndex = null) {
   let { prevEntry, nextEntry } = getAdjacentEntries(stopNumber, highlightIndex);
 
   currentFrame.classList.remove("hidden");
-  currentFrame.src = entry.panorama || "";
+  let normalizedMediaAsset = normalizeMediaAsset(mediaAsset);
+  currentFrame.src = entry.panorama
+    ? `${entry.panorama}${normalizedMediaAsset || ""}`
+    : "";
 
   prevFrame.src = prevEntry?.panorama || "";
   nextFrame.src = nextEntry?.panorama || "";
+}
+
+function normalizeMediaAsset(value) {
+  let text = String(value || "").trim();
+  if (!text) return null;
+  return text.startsWith("#") ? text : `#${text}`;
 }
 
 export function hidePanorama() {
