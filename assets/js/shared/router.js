@@ -245,8 +245,8 @@ export function navigate(updates = {}) {
   }
 
   let url = search ? `${pathname}?${search}` : pathname;
-  url = `${url}${hash}`;
-
+  url = `${url}/${hash}`;
+  console.log('3D Vista URL:', url);
   window.history.pushState(null, "", url);
   window.dispatchEvent(new CustomEvent(ROUTE_CHANGE_EVENT));
 }
