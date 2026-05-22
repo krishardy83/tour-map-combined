@@ -103,9 +103,16 @@ function getVirtualTourRouteFromPath(pathname) {
 }
 
 function normalizeMediaAsset(value) {
-  let text = String(value || "").trim();
+  let text = String(value || "").trim().replace(/^#+/, "");
   if (!text) return null;
-  return text.startsWith("#") ? text : `#${text}`;
+  return `#${text}`;
+}
+
+function buildNavigateUrl(pathname, search, hash = "") {
+  let url = new URL(pathname, window.location.origin);
+  url.search = search ? `?${search}` : "";
+  url.hash = hash ? hash.replace(/^#+/, "") : "";
+  return `${url.pathname}${url.search}${url.hash}`;
 }
 
 export function getCampusMapEntryUrl(entry = null) {
@@ -230,7 +237,6 @@ export function navigate(updates = {}) {
   );
 
   expanded.filter(Boolean).forEach((value) => params.append("expanded", value));
-
   markers.filter(Boolean).forEach((value) => params.append("markers", value));
 
   let search = params.toString();
@@ -244,9 +250,7 @@ export function navigate(updates = {}) {
     hash = normalizeMediaAsset(mediaAsset) || "";
   }
 
-  let url = search ? `${pathname}?${search}` : pathname;
-  url = `${url}/${hash}`;
-  console.log('3D Vista URL:', url);
+  let url = buildNavigateUrl(pathname, search, hash);
   window.history.pushState(null, "", url);
   window.dispatchEvent(new CustomEvent(ROUTE_CHANGE_EVENT));
 }
