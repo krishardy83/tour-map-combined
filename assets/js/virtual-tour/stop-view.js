@@ -68,8 +68,12 @@ export function showPanorama(stopNumber, highlightIndex = null, mediaAsset = nul
 
   currentFrame.classList.remove("hidden");
   let normalizedMediaAsset = normalizeMediaAsset(mediaAsset);
-  currentFrame.src = entry.panorama
-    ? `${entry.panorama}${normalizedMediaAsset || ""}`
+  let panoramaBase =
+    entry.panorama && normalizedMediaAsset
+      ? entry.panorama.replace(/#.*$/, "")
+      : entry.panorama;
+  currentFrame.src = panoramaBase
+    ? `${panoramaBase}${normalizedMediaAsset || ""}`
     : "";
 
   prevFrame.src = prevEntry?.panorama || "";

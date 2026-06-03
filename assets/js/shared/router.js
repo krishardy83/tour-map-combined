@@ -231,8 +231,6 @@ export function navigate(updates = {}) {
     markers = [],
   } = updates;
 
-  console.log("navigate", updates);
-
   let params = new URLSearchParams();
   let isCampusMapPath =
     window.location.pathname.startsWith(CAMPUS_MAP_BASE_PATH);
