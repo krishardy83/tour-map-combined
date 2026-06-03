@@ -103,7 +103,9 @@ function getVirtualTourRouteFromPath(pathname) {
 }
 
 function normalizeMediaAsset(value) {
-  let text = String(value || "").trim().replace(/^#+/, "");
+  let text = String(value || "")
+    .trim()
+    .replace(/^#+/, "");
   if (!text) return null;
   return `#${text}`;
 }
@@ -228,6 +230,8 @@ export function navigate(updates = {}) {
     expanded = [],
     markers = [],
   } = updates;
+
+  console.log("navigate", updates);
 
   let params = new URLSearchParams();
   let isCampusMapPath =

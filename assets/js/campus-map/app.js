@@ -55,4 +55,8 @@ function tryInit(entries) {
   Fancybox.bind("[data-fancybox]", {});
 }
 
-window.addEventListener("google-maps-ready", loadData);
+if (window._mapReady) {
+  loadData();
+} else {
+  window.addEventListener("google-maps-ready", loadData);
+}

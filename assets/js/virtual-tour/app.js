@@ -57,12 +57,14 @@ function findHighlight(stop, highlight) {
 }
 
 function openStop(location, highlight = null, mediaAsset = null) {
+  console.log("openStop", location, highlight, mediaAsset);
   if (stops.length === 0) return false;
 
   let stop = findStopByLocation(location);
-
+  console.log("stop", stop);
   if (!stop) return false;
 
+  console.log("findHighlight", findHighlight(stop, highlight));
   navigate({
     stop: stop.stopNumber,
     highlight: findHighlight(stop, highlight),
@@ -109,4 +111,8 @@ function tryInit(stopsData) {
   handleRouteChange();
 }
 
-window.addEventListener("google-maps-ready", loadData);
+if (window._mapReady) {
+  loadData();
+} else {
+  window.addEventListener("google-maps-ready", loadData);
+}
